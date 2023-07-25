@@ -15,10 +15,13 @@ pipeline {
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
     }
-    
+
     stages {
         stage('Build') {
-            sh 'mvn -s settings.xml -DskipsTests install'
+            steps {
+                sh 'mvn -s settings.xml -DskipsTests install'
+            }
+            
         }
     }
 }
