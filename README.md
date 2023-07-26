@@ -16,7 +16,13 @@ In this project, I deployed a continues integration for project #4 with Jenkins,
 - Slack Bot-App for Jenkins CI
 
 ## Results
-![]()
-![]()
-![]()
-![]()
+### Triggered Builds in jenkins
+![build with jenkins](https://github.com/Ndzenyuy/CI-with-jenkins/blob/main/images/Screenshot%20from%202023-07-26%2011-24-55.png)
+### Successful builds notification on slack
+![success notifications on slack](https://github.com/Ndzenyuy/CI-with-jenkins/blob/main/images/Screenshot%20from%202023-07-26%2011-26-15.png)
+### Nexus repository on Nexus server
+![nexus repo](https://github.com/Ndzenyuy/CI-with-jenkins/blob/main/images/Screenshot%20from%202023-07-26%2011-42-11.png)
+### Archived Artifacts
+![archived artifacts](https://github.com/Ndzenyuy/CI-with-jenkins/blob/main/images/Screenshot%20from%202023-07-26%2011-42-56.png)
+### Quality gate pass
+![quality gate pass](https://github.com/Ndzenyuy/CI-with-jenkins/blob/main/images/Screenshot%20from%202023-07-26%2013-08-18.png)
