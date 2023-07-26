@@ -1,25 +1,9 @@
-####
-### Prerequisites
-- JDK 1.8 or later
-- Maven 3 or later
-- MySQL 5.6 or later
+# PROJECT 5: CONTINUES INTEGRATIONS WITH JENKINS
 
-### Technologies 
-- Spring MVC
-- Spring Security
-- Spring Data JPA
-- Maven
-- JSP
-- MySQL
-### Database
-Here,we used Mysql DB 
-MSQL DB Installation Steps for Linux ubuntu 14.04:
-- $ sudo apt-get update
-- $ sudo apt-get install mysql-server
+In this project, I deployed a continues integration for project #4 with Jenkins, Used Sonarqube to analyse the code for bugs, configured Nexus to Store artifacts, and slack to send notifications on build status. All these services were deployed on three EC2 instances Running Ubuntu and Linux Os. This project was much fun, Jenkins was configured to launch a build job each time a new commit was detected in Github repo(configured through Webhooks). The Jenkins, using the installed plugins runs code build with Maven, code analysis with Sonarqube(which analysis for bugs) if the threshold is acceptable for the set values, the code is stored in Nexus artifact repository where versionning is enabled with timestamp and build number. 
 
-Then look for the file :
-- /src/main/resources/accountsdb
-- accountsdb.sql file is a mysql dump file.we have to import this dump to mysql db server
-- > mysql -u <user_name> -p accounts < accountsdb.sql
+## Project Architecture and Dataflow
+![]()
+![]()
 
 
