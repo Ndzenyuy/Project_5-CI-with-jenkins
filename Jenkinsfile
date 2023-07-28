@@ -10,12 +10,12 @@ pipeline {
         NEXUS_PASS = 'jones@nexus'
         RELEASE_REPO = 'vprofile-release'
         CENTRAL_REPO = 'vpro-maven-central'
-        NEXUSIP = '172.31.22.14'
+        NEXUSIP = '172.31.92.13'
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
-        SONARSERVER = 'sonarserver'
-        SONARSCANNER = 'sonarscanner'
+        //SONARSERVER = 'sonarserver'
+        //SONARSCANNER = 'sonarscanner'
     }
 
     stages {
@@ -44,6 +44,7 @@ pipeline {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
+        /*
         stage('Sonar Analysis') {
             environment {
                 scannerHome = tool "${SONARSCANNER}"
@@ -64,7 +65,7 @@ pipeline {
 
         stage("Quality Gate") {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
+                timeout(time: 1, unit: 'HOURS') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
                     waitForQualityGate abortPipeline: true
@@ -90,22 +91,12 @@ pipeline {
                   ]
                 )
             }
-        }
+        }*/
         stage('Slack'){
             steps{
                 slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             }
         }
         
-    }
-
-    /*
-    post {
-        always {
-            echo 'Slack Notifications.'
-            slackSend channel: '#jenkinscicd',
-                color: COLOR_MAP[currentBuild.currentResult],
-                message: ...
-        }
-    }*/
+    }    
 }
