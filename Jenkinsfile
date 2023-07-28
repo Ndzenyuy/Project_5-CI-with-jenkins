@@ -14,8 +14,8 @@ pipeline {
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
-        //SONARSERVER = 'sonarserver'
-        //SONARSCANNER = 'sonarscanner'
+        SONARSERVER = 'sonarserver'
+        SONARSCANNER = 'sonarscanner'
     }
 
     stages {
@@ -44,7 +44,7 @@ pipeline {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
-        /*
+        
         stage('Sonar Analysis') {
             environment {
                 scannerHome = tool "${SONARSCANNER}"
@@ -62,7 +62,7 @@ pipeline {
               }
             }
         }
-
+        /*
         stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
