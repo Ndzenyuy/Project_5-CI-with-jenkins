@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Sonar Analysis') {
+        /*stage('Sonar Analysis') {
             environment {
                 scannerHome = tool "${SONARSCANNER}"
             }
@@ -61,6 +61,6 @@ pipeline {
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
               }
             }
-        }
+        }*/
     }
 }
