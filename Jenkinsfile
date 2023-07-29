@@ -54,6 +54,11 @@ pipeline {
 
           steps {
             withSonarQubeEnv("${SONARSERVER}") {
+            // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
+            println ${env.SONAR_HOST_URL} 
+            }
+            /*
+            withSonarQubeEnv("${SONARSERVER}") {
                sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                    -Dsonar.projectName=vprofile-repo \
                    -Dsonar.projectVersion=1.0 \
@@ -62,7 +67,9 @@ pipeline {
                    -Dsonar.junit.reportsPath=target/surefire-reports/ \
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-            }
+            }*/
+
+            
 
             timeout(time: 10, unit: 'MINUTES') {
                waitForQualityGate abortPipeline: true
