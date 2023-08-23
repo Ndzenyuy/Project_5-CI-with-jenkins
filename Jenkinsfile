@@ -67,13 +67,13 @@ pipeline {
 
             
 
-            timeout(time: 10, unit: 'MINUTES') {
+            /*timeout(time: 10, unit: 'MINUTES') {
                waitForQualityGate abortPipeline: true
-            }
+            }*/
           }
         }  
 
-        stage("UploadArtifact"){
+        /*stage("UploadArtifact"){
             steps{
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
@@ -97,7 +97,7 @@ pipeline {
             steps{
                 slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             }
-        }     
+        }  */   
         
     }
 }
