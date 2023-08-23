@@ -4,7 +4,7 @@ pipeline {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
-
+    
     environment {
         SNAP_REPO = 'vprofile-snapshot'
 		NEXUS_USER = 'admin'
@@ -15,13 +15,15 @@ pipeline {
 		NEXUSPORT = '8081'
 		NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
+        SONARSERVER = 'sonarserver'
+        SONARSCANNER = 'sonarscanner'
     }
 
     stages {
-        stage ('Build'){
+        stage('Build'){
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
-            } 
+            }
             post {
                 success {
                     echo "Now Archiving."
@@ -65,11 +67,37 @@ pipeline {
 
             
 
-            /*timeout(time: 10, unit: 'MINUTES') {
+            timeout(time: 10, unit: 'MINUTES') {
                waitForQualityGate abortPipeline: true
-            } */
+            }
           }
         }  
 
+        stage("UploadArtifact"){
+            steps{
+                nexusArtifactUploader(
+                  nexusVersion: 'nexus3',
+                  protocol: 'http',
+                  nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                  groupId: 'QA',
+                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                  repository: "${RELEASE_REPO}",
+                  credentialsId: "${NEXUS_LOGIN}",
+                  artifacts: [
+                    [artifactId: 'vproapp',
+                     classifier: '',
+                     file: 'target/vprofile-v2.war',
+                     type: 'war']
+                  ]
+                )
+            }
+        } 
+
+        stage('Slack'){
+            steps{
+                slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+            }
+        }     
+        
     }
 }
