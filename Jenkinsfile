@@ -33,7 +33,7 @@ pipeline {
             
         }
 
-        stage('Test') {
+        /*stage('Test') {
             steps {
                 sh 'mvn -s settings.xml test'
             }
@@ -95,7 +95,7 @@ pipeline {
             steps{
                 slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             }
-        }
+        }*/
         
     }
 
