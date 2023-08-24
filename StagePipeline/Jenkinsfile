@@ -19,7 +19,7 @@ pipeline {
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:us-east-1:awscreds'
         appRegistry = '997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
-        vprofileRegistry = "https://997450571655.dkr.ecr.us-east-1.amazonaws.com"
+        vprofileRegistry = "https://997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
     }
 
     stages {
@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        /*stage('CODE ANALYSIS with SONARQUBE') {
+        stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
              scannerHome = tool "${SONARSCANNER}"
@@ -74,7 +74,7 @@ pipeline {
                waitForQualityGate abortPipeline: true
             }
           }
-        } */  
+        }  
 
         stage("UploadArtifact"){
             steps{
@@ -96,11 +96,11 @@ pipeline {
             }
         } 
 
-        stage('Slack'){
+        /*stage('Slack'){
             steps{
                 slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             }
-        }
+        }*/
         stage('Build App Image') {
             steps {
                 script {
