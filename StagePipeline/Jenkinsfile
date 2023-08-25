@@ -22,10 +22,10 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:us-east-1:awscreds'
-        appRegistry = '997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'
+        appRegistry = '997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'    
+        vprofileRegistry = "https://997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
         cluster = "vprostaging"
         service = "vproappstagesvc"
-        vprofileRegistry = "https://997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
     }
 
     stages {
@@ -123,7 +123,7 @@ pipeline {
 
         stage('Deploy to ECS staging') {
             steps{
-                withAws(credentials: 'awscreds', region: 'us-east-1'){
+                withAws(credentials: 'awscreds', region: 'us-east-2'){
                     sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
                 }
             }
