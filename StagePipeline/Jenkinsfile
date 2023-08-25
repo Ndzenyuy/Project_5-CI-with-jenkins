@@ -102,11 +102,11 @@ pipeline {
             }
         } 
 
-        stage('Build App Image') {
+        stage('Deploy to ECS staging') {
             steps {
-                script {
-                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
-                }
+                withAWS(credentials: 'awscreds', region: 'us-east-1') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                } 
             }
         }
         
