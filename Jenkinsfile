@@ -21,11 +21,8 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
-        registryCredential = 'ecr:us-east-1:awscreds'
-        appRegistry = '997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg'    
-        vprofileRegistry = "https://997450571655.dkr.ecr.us-east-1.amazonaws.com/vprofileappimg"
-        cluster = "vprostaging"
-        service = "vproappstagesvc"
+        NEXUSPASS = credentials('nexuspass')
+        
     }
 
     stages {
@@ -76,9 +73,9 @@ pipeline {
 
             
 
-            timeout(time: 10, unit: 'MINUTES') {
+            /*timeout(time: 10, unit: 'MINUTES') {
                waitForQualityGate abortPipeline: true
-            }
+            }*/
           }
         }  
 
@@ -102,32 +99,34 @@ pipeline {
             }
         }  
 
-        stage('Build App Image'){
+        stage('Ansible Deploy to staging'){
             steps {
-                script {
-                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
-                }
+                ansiblePlaybook([
+                inventory   : 'ansible/stage.inventory',
+                playbook    : 'ansible/site.yml',
+                installation: 'ansible',
+                colorized   : true,
+			    credentialsId: 'applogin',
+			    disableHostKeyChecking: true,
+                extraVars   : [
+                   	USER: "admin",
+                    PASS: "${NEXUS_PASS}",
+			        nexusip: "172.31.25.86",
+			        reponame: "vprofile-release",
+			        groupid: "QA",
+			        time: "${env.BUILD_TIMESTAMP}",
+			        build: "${env.BUILD_ID}",
+                    artifactid: "vproapp",
+			        vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
+                ]
+             ])
             }
         }
-        
-        stage('Upload App Image') {
-          steps{
-            script {
-              docker.withRegistry( vprofileRegistry, registryCredential ) {
-                dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
-              }
-            }
-          }
-        } 
 
-        stage('Deploy to ECS staging') {
-            steps {
-                withAWS(credentials: 'awscreds', region: 'us-east-2') {
-                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
-                } 
-            }
-        }
+                
+      
+
+        
     }
 
     /*post {
