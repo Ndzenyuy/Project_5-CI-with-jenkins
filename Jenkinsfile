@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-        /*stage('CODE ANALYSIS with SONARQUBE') {
+        stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
              scannerHome = tool "${SONARSCANNER}"
@@ -71,9 +71,9 @@ pipeline {
                waitForQualityGate abortPipeline: true
             }*/
           }
-        } */  
+        } 
 
-        /*stage("UploadArtifact"){
+        stage("UploadArtifact"){
             steps{
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
@@ -91,13 +91,13 @@ pipeline {
                   ]
                 )
             }
-        } */
+        } 
 
-        /*stage('Slack'){
+        /* stage('Slack'){
             steps{
                 slackSend message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
             }
-        }     
+        }   */  
     }
 }
 
